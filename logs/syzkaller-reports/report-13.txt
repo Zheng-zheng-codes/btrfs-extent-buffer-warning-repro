@@ -1,0 +1,138 @@
+BTRFS info (device loop8): last unmount of filesystem 3d39d0ba-bdae-447e-827b-b091e1a68885
+------------[ cut here ]------------
+IS_ENABLED(CONFIG_BTRFS_DEBUG)
+WARNING: fs/btrfs/disk-io.c:3326 at invalidate_and_check_btree_folios+0x5ce/0xbe0 fs/btrfs/disk-io.c:3326, CPU#2: syz-executor/205908
+Modules linked in:
+CPU: 2 UID: 0 PID: 205908 Comm: syz-executor Tainted: G             L      7.4.0-rc1-kernsight-kasan+ #3 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:invalidate_and_check_btree_folios+0x5ce/0xbe0 fs/btrfs/disk-io.c:3326
+Code: 00 00 41 8b 5c 24 68 4c 89 c7 e8 2d fd bb 07 bf 02 00 00 00 89 de e8 31 77 9b fd 83 fb 02 0f 86 cc 00 00 00 e8 13 7d 9b fd 90 <0f> 0b 90 e8 aa 6a 7c fd 45 31 c9 45 31 c0 b9 02 00 00 00 48 8d 05
+RSP: 0018:ffa0000005f8fad0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+RDX: ff11000125fe8000 RSI: ffffffff842ea28d RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffff842ea38d R09: 0000000000000001
+R10: ff1100010431f377 R11: 0000000000000000 R12: ff1100010431f360
+R13: ff1100010431f370 R14: dffffc0000000000 R15: 0000000000000001
+FS:  000055555d2c7500(0000) GS:ff1100020dc26000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2f3020b2b8 CR3: 00000000304bc000 CR4: 0000000000753ef0
+PKRU: 80000000
+Call Trace:
+ <TASK>
+ close_ctree+0xac9/0x16a0 fs/btrfs/disk-io.c:4565
+ generic_shutdown_super+0x169/0x3a0 fs/super.c:723
+ kill_anon_super+0x3f/0x70 fs/super.c:1315
+ btrfs_kill_super+0x41/0x60 fs/btrfs/super.c:2139
+ deactivate_locked_super+0xc0/0x130 fs/super.c:558
+ deactivate_super fs/super.c:586 [inline]
+ deactivate_super+0xb9/0xd0 fs/super.c:582
+ cleanup_mnt+0xbc/0x160 fs/namespace.c:1396
+ task_work_run+0x170/0x260 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
+ exit_to_user_mode_loop+0x254/0x650 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
+ do_syscall_64+0x5bb/0x7a0 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f65c6db44db
+Code: a8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 a8 ff ff ff f7 d8
+RSP: 002b:00007ffddf78f378 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000036 RCX: 00007f65c6db44db
+RDX: 00007f65c6c526a0 RSI: 0000000000000009 RDI: 00007ffddf78f430
+RBP: 00007ffddf78f430 R08: 0000000000000000 R09: 00007ffddf78f200
+R10: 000055555d2da673 R11: 0000000000000246 R12: 00007f65c6e4fe26
+R13: 00007ffddf790500 R14: 000055555d2da600 R15: 000000000029b363
+ </TASK>
+
+<<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+
+Modules linked in:
+CPU: 2 UID: 0 PID: 205908 Comm: syz-executor Tainted: G             L      7.4.0-rc1-kernsight-kasan+ #3 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:invalidate_and_check_btree_folios+0x5ce/0xbe0
+Code: 00 00 41 8b 5c 24 68 4c 89 c7 e8 2d fd bb 07 bf 02 00 00 00 89 de e8 31 77 9b fd 83 fb 02 0f 86 cc 00 00 00 e8 13 7d 9b fd 90 <0f> 0b 90 e8 aa 6a 7c fd 45 31 c9 45 31 c0 b9 02 00 00 00 48 8d 05
+RSP: 0018:ffa0000005f8fad0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+RDX: ff11000125fe8000 RSI: ffffffff842ea28d RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffff842ea38d R09: 0000000000000001
+R10: ff1100010431f377 R11: 0000000000000000 R12: ff1100010431f360
+R13: ff1100010431f370 R14: dffffc0000000000 R15: 0000000000000001
+FS:  000055555d2c7500(0000) GS:ff1100020dc26000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2f3020b2b8 CR3: 00000000304bc000 CR4: 0000000000753ef0
+PKRU: 80000000
+Call Trace:
+ <TASK>
+ close_ctree+0xac9/0x16a0
+ generic_shutdown_super+0x169/0x3a0
+ kill_anon_super+0x3f/0x70
+ btrfs_kill_super+0x41/0x60
+ deactivate_locked_super+0xc0/0x130
+ deactivate_super+0xb9/0xd0
+ cleanup_mnt+0xbc/0x160
+ task_work_run+0x170/0x260
+ exit_to_user_mode_loop+0x254/0x650
+ do_syscall_64+0x5bb/0x7a0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f65c6db44db
+Code: a8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 a8 ff ff ff f7 d8
+RSP: 002b:00007ffddf78f378 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000036 RCX: 00007f65c6db44db
+RDX: 00007f65c6c526a0 RSI: 0000000000000009 RDI: 00007ffddf78f430
+RBP: 00007ffddf78f430 R08: 0000000000000000 R09: 00007ffddf78f200
+R10: 000055555d2da673 R11: 0000000000000246 R12: 00007f65c6e4fe26
+R13: 00007ffddf790500 R14: 000055555d2da600 R15: 000000000029b363
+ </TASK>
+Kernel panic - not syncing: kernel: panic_on_warn set ...
+CPU: 2 UID: 0 PID: 205908 Comm: syz-executor Tainted: G             L      7.4.0-rc1-kernsight-kasan+ #3 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x3d/0x1b0
+ vpanic+0x726/0x7f0
+ panic+0xc7/0xd0
+ check_panic_on_warn+0xb6/0xc0
+ __warn+0x10d/0x400
+ __report_bug+0x4aa/0x5a0
+ report_bug+0xb3/0x210
+ handle_bug+0x2d7/0x4e0
+ exc_invalid_op+0x35/0x80
+ asm_exc_invalid_op+0x1a/0x20
+RIP: 0010:invalidate_and_check_btree_folios+0x5ce/0xbe0
+Code: 00 00 41 8b 5c 24 68 4c 89 c7 e8 2d fd bb 07 bf 02 00 00 00 89 de e8 31 77 9b fd 83 fb 02 0f 86 cc 00 00 00 e8 13 7d 9b fd 90 <0f> 0b 90 e8 aa 6a 7c fd 45 31 c9 45 31 c0 b9 02 00 00 00 48 8d 05
+RSP: 0018:ffa0000005f8fad0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+RDX: ff11000125fe8000 RSI: ffffffff842ea28d RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffff842ea38d R09: 0000000000000001
+R10: ff1100010431f377 R11: 0000000000000000 R12: ff1100010431f360
+R13: ff1100010431f370 R14: dffffc0000000000 R15: 0000000000000001
+ close_ctree+0xac9/0x16a0
+ generic_shutdown_super+0x169/0x3a0
+ kill_anon_super+0x3f/0x70
+ btrfs_kill_super+0x41/0x60
+ deactivate_locked_super+0xc0/0x130
+ deactivate_super+0xb9/0xd0
+ cleanup_mnt+0xbc/0x160
+ task_work_run+0x170/0x260
+ exit_to_user_mode_loop+0x254/0x650
+ do_syscall_64+0x5bb/0x7a0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f65c6db44db
+Code: a8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 a8 ff ff ff f7 d8
+RSP: 002b:00007ffddf78f378 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000036 RCX: 00007f65c6db44db
+RDX: 00007f65c6c526a0 RSI: 0000000000000009 RDI: 00007ffddf78f430
+RBP: 00007ffddf78f430 R08: 0000000000000000 R09: 00007ffddf78f200
+R10: 000055555d2da673 R11: 0000000000000246 R12: 00007f65c6e4fe26
+R13: 00007ffddf790500 R14: 000055555d2da600 R15: 000000000029b363
+ </TASK>
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
+
+<<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+

@@ -1,0 +1,15 @@
+{
+  "count": 9,
+  "last_attempt": "2026-11-04T15:47:49.800675956Z",
+  "failures": {
+    "0634990d11cb067c0fbda59db34f99ae69120a6c": 1,
+    "777e8a387ccb82b1153e36b285887fd4334f572d": 1,
+    "78b38c2bca88ab41a42e303bf1d9618a6b8f2b9f": 1,
+    "7bc50f8d9a7375faa7dd75b807b8af0d1f444a4f": 1,
+    "ab2f3668d2d254f67d7cdce6ae1e96523c0768e1": 1,
+    "cf3dc2b36eb028fd95d7d5e0d4fdea101c6e84fa": 1,
+    "d4f39cc49722939556f60cdb920a0212ed61a05b": 1,
+    "d70b7374222c9137152f7bcc1bccbc98b9e7b4fe": 1,
+    "e25a1f1bf9ad3b7c3a6e0fe1bf813cb33fc95a15": 1
+  }
+}

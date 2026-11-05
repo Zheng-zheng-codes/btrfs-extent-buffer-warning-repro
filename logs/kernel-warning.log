@@ -1,0 +1,142 @@
+[ 1807.093250][T211192] XFS (loop4): Ending clean mount
+[ 1807.099415][T211192] XFS (loop4): Quotacheck needed: Please wait.
+[ 1807.109970][T210400] hsr_slave_0: entered promiscuous mode
+[ 1807.110484][T210400] hsr_slave_1: entered promiscuous mode
+[ 1807.110788][T210400] debugfs: 'hsr0' already exists in 'hsr'
+[ 1807.110799][T210400] Cannot create hsr debugfs directory
+[ 1807.196482][T210964] loop8: detected capacity change from 0 to 32768
+[ 1807.223025][T210964] BTRFS info: device /dev/loop8 (7:8) using temp-fsid 1c73c79b-0e40-46e1-b40d-51dd481f4c26
+[ 1807.223066][T210964] BTRFS: device fsid afd29e67-b8c6-49b0-b0d7-0efab618e2f3 devid 1 transid 8 /dev/loop8 (7:8) scanned by syz.8.7110 (210964)
+[ 1807.270267][T210964] BTRFS info (device loop8): first mount of filesystem afd29e67-b8c6-49b0-b0d7-0efab618e2f3
+[ 1807.270292][T210964] BTRFS info (device loop8): using crc32c checksum algorithm
+[ 1807.282990][T211192] XFS (loop4): Quotacheck: Done.
+[ 1807.283203][T211192] xfs filesystem being mounted at /9/file0 supports timestamps until 2038-01-19 (0x7fffffff)
+[ 1807.307695][T118188] netdevsim netdevsim1 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+[ 1807.389583][T73521] netdevsim netdevsim5 netdevsim3: set [1, 0] type 2 family 0 port 6081 - 0
+[ 1807.389671][T73521] netdevsim netdevsim5 netdevsim2: set [1, 0] type 2 family 0 port 6081 - 0
+[ 1807.389754][T73521] netdevsim netdevsim5 netdevsim1: set [1, 0] type 2 family 0 port 6081 - 0
+[ 1807.437218][T210964] BTRFS info (device loop8): enabling ssd optimizations
+[ 1807.437238][T210964] BTRFS info (device loop8): turning on async discard
+[ 1807.437249][T210964] BTRFS info (device loop8): enabling free space tree
+[ 1807.446092][T203072] XFS (loop4): Unmounting Filesystem cc8a0a03-7501-4b50-be6e-9129643585b1
+[ 1807.469095][  T163] bridge0: port 1(bridge_slave_0) entered blocking state
+[ 1807.469153][  T163] bridge0: port 1(bridge_slave_0) entered forwarding state
+[ 1807.482628][T211299] loop7: detected capacity change from 0 to 128
+[ 1807.495326][  T163] bridge0: port 2(bridge_slave_1) entered blocking state
+[ 1807.495427][  T163] bridge0: port 2(bridge_slave_1) entered forwarding state
+[ 1807.559482][T73521] netdevsim netdevsim5 netdevsim0: set [1, 0] type 2 family 0 port 6081 - 0
+[ 1807.600828][T202820] BTRFS info (device loop8): last unmount of filesystem 1c73c79b-0e40-46e1-b40d-51dd481f4c26
+[ 1807.607375][T202820] ------------[ cut here ]------------
+[ 1807.607390][T202820] IS_ENABLED(CONFIG_BTRFS_DEBUG)
+[ 1807.607397][T202820] WARNING: fs/btrfs/disk-io.c:3326 at invalidate_and_check_btree_folios+0x5ce/0xbe0, CPU#1: syz-executor/202820
+[ 1807.610679][T202820] Modules linked in:
+[ 1807.611225][T202820] CPU: 1 UID: 0 PID: 202820 Comm: syz-executor Not tainted 7.4.0-rc1-kernsight-kasan+ #3 PREEMPT(full) 
+[ 1807.613611][T202820] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+[ 1807.614811][T202820] RIP: 0010:invalidate_and_check_btree_folios+0x5ce/0xbe0
+[ 1807.615816][T202820] Code: 00 00 41 8b 5c 24 68 4c 89 c7 e8 2d fd bb 07 bf 02 00 00 00 89 de e8 31 77 9b fd 83 fb 02 0f 86 cc 00 00 00 e8 13 7d 9b fd 90 <0f> 0b 90 e8 aa 6a 7c fd 45 31 c9 45 31 c0 b9 02 00 00 00 48 8d 05
+[ 1807.618349][T202820] RSP: 0018:ffa00000122a7ad0 EFLAGS: 00010293
+[ 1807.619132][T202820] RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+[ 1807.620488][T202820] RDX: ff11000114e24c80 RSI: ffffffff842ea28d RDI: 0000000000000001
+[ 1807.621510][T202820] RBP: 0000000000000001 R08: ffffffff842ea38d R09: 0000000000000001
+[ 1807.622561][T202820] R10: ff110001552deda7 R11: 0000000000000000 R12: ff110001552ded90
+[ 1807.623595][T202820] R13: ff110001552deda0 R14: dffffc0000000000 R15: 0000000000000001
+[ 1807.624641][T202820] FS:  0000555560e0a500(0000) GS:ff110001ef4a6000(0000) knlGS:0000000000000000
+[ 1807.625785][T202820] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1807.626677][T202820] CR2: 00007f81df3742e0 CR3: 00000001200c7000 CR4: 0000000000753ef0
+[ 1807.627690][T202820] PKRU: 00000000
+[ 1807.628131][T202820] Call Trace:
+[ 1807.628608][T202820]  <TASK>
+[ 1807.629032][T202820]  ? __pfx_free_extent_buffer_clear_reading+0x10/0x10
+[ 1807.630018][T202820]  ? __pfx_invalidate_and_check_btree_folios+0x10/0x10
+[ 1807.630919][T202820]  ? preempt_count_sub+0xfc/0x1a0
+[ 1807.631583][T202820]  ? _raw_read_unlock+0x2d/0x50
+[ 1807.632305][T202820]  close_ctree+0xac9/0x16a0
+[ 1807.632940][T202820]  ? __pfx__btrfs_printk+0x10/0x10
+[ 1807.633681][T202820]  ? __pfx_close_ctree+0x10/0x10
+[ 1807.634414][T202820]  ? btrfs_put_super+0xea/0x220
+[ 1807.635103][T202820]  ? __pfx_btrfs_put_super+0x10/0x10
+[ 1807.635779][T202820]  generic_shutdown_super+0x169/0x3a0
+[ 1807.636510][T202820]  kill_anon_super+0x3f/0x70
+[ 1807.637112][T202820]  btrfs_kill_super+0x41/0x60
+[ 1807.637747][T202820]  deactivate_locked_super+0xc0/0x130
+[ 1807.638479][T202820]  deactivate_super+0xb9/0xd0
+[ 1807.639145][T202820]  cleanup_mnt+0xbc/0x160
+[ 1807.639867][T202820]  task_work_run+0x170/0x260
+[ 1807.640507][T202820]  ? __pfx_task_work_run+0x10/0x10
+[ 1807.641191][T202820]  exit_to_user_mode_loop+0x254/0x650
+[ 1807.641932][T202820]  ? rcu_is_watching+0x13/0xc0
+[ 1807.642588][T202820]  do_syscall_64+0x5bb/0x7a0
+[ 1807.643202][T202820]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[ 1807.643967][T202820] RIP: 0033:0x7f57dcdb44db
+[ 1807.644592][T202820] Code: a8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 a8 ff ff ff f7 d8
+[ 1807.647001][T202820] RSP: 002b:00007ffe914a3bd8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+[ 1807.648089][T202820] RAX: 0000000000000000 RBX: 000000000000003c RCX: 00007f57dcdb44db
+[ 1807.649131][T202820] RDX: 00007f57dcc526a0 RSI: 0000000000000009 RDI: 00007ffe914a3c90
+[ 1807.650451][T202820] RBP: 00007ffe914a3c90 R08: 0000000000000000 R09: 00007ffe914a3a60
+[ 1807.651526][T202820] R10: 0000555560e1d673 R11: 0000000000000246 R12: 00007f57dce4fe26
+[ 1807.652594][T202820] R13: 00007ffe914a4d60 R14: 0000555560e1d600 R15: 00000000001b975f
+[ 1807.653702][T202820]  </TASK>
+[ 1807.654120][T202820] Kernel panic - not syncing: kernel: panic_on_warn set ...
+[ 1807.655022][T202820] CPU: 1 UID: 0 PID: 202820 Comm: syz-executor Not tainted 7.4.0-rc1-kernsight-kasan+ #3 PREEMPT(full) 
+[ 1807.656443][T202820] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+[ 1807.657590][T202820] Call Trace:
+[ 1807.658069][T202820]  <TASK>
+[ 1807.658433][T202820]  dump_stack_lvl+0x3d/0x1b0
+[ 1807.659059][T202820]  vpanic+0x726/0x7f0
+[ 1807.659600][T202820]  ? invalidate_and_check_btree_folios+0x5ce/0xbe0
+[ 1807.660455][T202820]  panic+0xc7/0xd0
+[ 1807.660948][T202820]  ? __pfx_panic+0x10/0x10
+[ 1807.661558][T202820]  ? check_panic_on_warn+0x24/0xc0
+[ 1807.662254][T202820]  check_panic_on_warn+0xb6/0xc0
+[ 1807.662934][T202820]  __warn+0x10d/0x400
+[ 1807.663482][T202820]  __report_bug+0x4aa/0x5a0
+[ 1807.664092][T202820]  ? invalidate_and_check_btree_folios+0x5ce/0xbe0
+[ 1807.664947][T202820]  ? __pfx___report_bug+0x10/0x10
+[ 1807.665659][T202820]  ? invalidate_and_check_btree_folios+0x5ce/0xbe0
+[ 1807.666504][T202820]  report_bug+0xb3/0x210
+[ 1807.667096][T202820]  ? invalidate_and_check_btree_folios+0x5ce/0xbe0
+[ 1807.667916][T202820]  handle_bug+0x2d7/0x4e0
+[ 1807.668506][T202820]  exc_invalid_op+0x35/0x80
+[ 1807.669101][T202820]  asm_exc_invalid_op+0x1a/0x20
+[ 1807.669769][T202820] RIP: 0010:invalidate_and_check_btree_folios+0x5ce/0xbe0
+[ 1807.670692][T202820] Code: 00 00 41 8b 5c 24 68 4c 89 c7 e8 2d fd bb 07 bf 02 00 00 00 89 de e8 31 77 9b fd 83 fb 02 0f 86 cc 00 00 00 e8 13 7d 9b fd 90 <0f> 0b 90 e8 aa 6a 7c fd 45 31 c9 45 31 c0 b9 02 00 00 00 48 8d 05
+[ 1807.673089][T202820] RSP: 0018:ffa00000122a7ad0 EFLAGS: 00010293
+[ 1807.673900][T202820] RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+[ 1807.674896][T202820] RDX: ff11000114e24c80 RSI: ffffffff842ea28d RDI: 0000000000000001
+[ 1807.675866][T202820] RBP: 0000000000000001 R08: ffffffff842ea38d R09: 0000000000000001
+[ 1807.676874][T202820] R10: ff110001552deda7 R11: 0000000000000000 R12: ff110001552ded90
+[ 1807.677844][T202820] R13: ff110001552deda0 R14: dffffc0000000000 R15: 0000000000000001
+[ 1807.678824][T202820]  ? invalidate_and_check_btree_folios+0x6cd/0xbe0
+[ 1807.679709][T202820]  ? invalidate_and_check_btree_folios+0x5cd/0xbe0
+[ 1807.680533][T202820]  ? __pfx_free_extent_buffer_clear_reading+0x10/0x10
+[ 1807.681418][T202820]  ? __pfx_invalidate_and_check_btree_folios+0x10/0x10
+[ 1807.682289][T202820]  ? preempt_count_sub+0xfc/0x1a0
+[ 1807.682916][T202820]  ? _raw_read_unlock+0x2d/0x50
+[ 1807.683606][T202820]  close_ctree+0xac9/0x16a0
+[ 1807.684178][T202820]  ? __pfx__btrfs_printk+0x10/0x10
+[ 1807.684854][T202820]  ? __pfx_close_ctree+0x10/0x10
+[ 1807.685516][T202820]  ? btrfs_put_super+0xea/0x220
+[ 1807.686236][T202820]  ? __pfx_btrfs_put_super+0x10/0x10
+[ 1807.686920][T202820]  generic_shutdown_super+0x169/0x3a0
+[ 1807.687620][T202820]  kill_anon_super+0x3f/0x70
+[ 1807.688224][T202820]  btrfs_kill_super+0x41/0x60
+[ 1807.688863][T202820]  deactivate_locked_super+0xc0/0x130
+[ 1807.689580][T202820]  deactivate_super+0xb9/0xd0
+[ 1807.690192][T202820]  cleanup_mnt+0xbc/0x160
+[ 1807.690804][T202820]  task_work_run+0x170/0x260
+[ 1807.691410][T202820]  ? __pfx_task_work_run+0x10/0x10
+[ 1807.692113][T202820]  exit_to_user_mode_loop+0x254/0x650
+[ 1807.692819][T202820]  ? rcu_is_watching+0x13/0xc0
+[ 1807.693416][T202820]  do_syscall_64+0x5bb/0x7a0
+[ 1807.693996][T202820]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[ 1807.694742][T202820] RIP: 0033:0x7f57dcdb44db
+[ 1807.695322][T202820] Code: a8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 a8 ff ff ff f7 d8
+[ 1807.697683][T202820] RSP: 002b:00007ffe914a3bd8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+[ 1807.698715][T202820] RAX: 0000000000000000 RBX: 000000000000003c RCX: 00007f57dcdb44db
+[ 1807.699700][T202820] RDX: 00007f57dcc526a0 RSI: 0000000000000009 RDI: 00007ffe914a3c90
+[ 1807.700651][T202820] RBP: 00007ffe914a3c90 R08: 0000000000000000 R09: 00007ffe914a3a60
+[ 1807.701625][T202820] R10: 0000555560e1d673 R11: 0000000000000246 R12: 00007f57dce4fe26
+[ 1807.702623][T202820] R13: 00007ffe914a4d60 R14: 0000555560e1d600 R15: 00000000001b975f
+[ 1807.703589][T202820]  </TASK>
+[ 1807.704154][T202820] Kernel Offset: disabled
+[ 1807.704725][T202820] Rebooting in 86400 seconds..
