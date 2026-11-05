@@ -51,19 +51,36 @@ to this issue.
 
 - The warning was observed 19 times during concurrent syzkaller fuzzing; all
   reports share the same warning site and call chain.
-- It was reproduced twice on fresh VMs by replaying a recorded program set
-  (483 programs extracted from the crash-store execution logs plus the
+- It was reproduced three times on fresh VMs by replaying a recorded program
+  set (483 programs extracted from the crash-store execution logs plus the
   state-primed recipe) with
   `syz-execprog -procs=8 -threaded -repeat=0`; time to warning was about
-  32 and 45 minutes of replay respectively (kernel uptime 1807 s / 2732 s at
-  the warning).
+  32 minutes, 45 minutes and 2 hours of replay respectively (kernel uptime
+  1807 s / 2732 s / 7445 s at the warning).
 - We have not yet minimized this to a single-program reproducer; automated
   minimization did not converge for this crash.
-- An additional repeat run and an attempt to capture the extent buffer's
-  `refs`/`flags` (running with `panic_on_warn=0`, which should let the kernel
-  print the `unable to release extent buffer ... refs ... flags ...` line that
-  follows the WARN) are in progress. We will follow up in this thread with
-  those numbers.
+- With `panic_on_warn=0`, the kernel printed the `btrfs_warn()` line that
+  follows the WARN, giving the extent buffer's `refs`/`flags` at print time
+  (four instances, log: [LINK] logs/refcap-refs-flags-diagnostic.log):
+
+  ```text
+  BTRFS warning (device loop4 state I): unable to release extent buffer 6881280 owner 5 gen 9 refs 2 flags 0xd
+  BTRFS warning (device loop0 state I): unable to release extent buffer 6885376 owner 5 gen 9 refs 2 flags 0x1d
+  BTRFS warning (device loop8 state I): unable to release extent buffer 6885376 owner 5 gen 9 refs 2 flags 0x1d
+  BTRFS warning (device loop1 state I): unable to release extent buffer 6885376 owner 5 gen 9 refs 2 flags 0x5
+  ```
+
+  In all four instances `refs == 2` (no holder beyond the baseline: one
+  reference held by the invalidation loop, one for the buffer-tree
+  ownership), and in two of four instances the flags include
+  `EXTENT_BUFFER_WRITEBACK`, i.e. `extent_buffer_under_io()` was true and the
+  extent buffer was still under writeback when `close_ctree()` ran. In the
+  remaining two instances the printed flags show no WRITEBACK/DIRTY bit,
+  indicating the state had already changed between the refcount check and the
+  message formatting. The machine kept running and later unmounts proceeded
+  normally. This suggests the warning fires on transient unfinished I/O
+  during unmount rather than on a leaked reference, though we are not
+  asserting a conclusion.
 
 **Logs and configuration:**
 
@@ -72,6 +89,8 @@ to this issue.
 - Full serial console of the reproducing run: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/external-repro-full-serial.log
 - syzkaller execution log captured at report time: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/syzkaller-execution-log0.txt
 - Program set used for reproduction: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/repro/program-set.db
+- refs/flags diagnostics (panic_on_warn=0 run): https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/refcap-refs-flags-diagnostic.log
+- serial consoles of reproducing runs 2 and 3: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/serial-btrfs-repro2.log , https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/serial-btrfs-repro3.log
 
 Could you please advise whether this warning corresponds to a known issue, or
 whether additional diagnostics would be useful?
