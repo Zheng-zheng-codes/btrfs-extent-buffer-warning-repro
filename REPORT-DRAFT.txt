@@ -1,0 +1,80 @@
+Subject: WARNING in invalidate_and_check_btree_folios() during btrfs unmount on 7.4-rc1 (KASAN, syzkaller)
+
+Hi Btrfs maintainers,
+
+We observed a WARNING in `invalidate_and_check_btree_folios()` during Btrfs
+filesystem unmount while running syzkaller on Linux 7.4-rc1. Because
+`panic_on_warn` was enabled, the warning escalated to a kernel panic.
+
+**Kernel information:**
+
+- Kernel version: 7.4.0-rc1-kernsight-kasan+ #3
+- Base: v7.4-rc1 (`6628e7d4c`), plus one local io_uring SQPOLL fix
+  (`00043c58565e2d0d804f50c2e127f6966cd594af`); the Btrfs source is
+  unmodified v7.4-rc1
+- Architecture: x86_64
+- Environment: QEMU Standard PC (i440FX + PIIX), KVM
+- Configuration: KASAN, `CONFIG_BTRFS_DEBUG=y` (full .config in the repo)
+- Fuzzing framework: syzkaller
+
+**Warning:**
+
+```text
+BTRFS info (device loop3): last unmount of filesystem
+0cb7aac4-39d5-48d7-a0de-5529c14770b2
+
+------------[ cut here ]------------
+IS_ENABLED(CONFIG_BTRFS_DEBUG)
+WARNING: fs/btrfs/disk-io.c:3326 at
+invalidate_and_check_btree_folios+0x5ce/0xbe0
+
+Call Trace:
+ invalidate_and_check_btree_folios
+ close_ctree+0xac9/0x16a0
+ btrfs_put_super
+ generic_shutdown_super+0x169/0x3a0
+ kill_anon_super
+ btrfs_kill_super+0x41/0x60
+ deactivate_locked_super
+ deactivate_super
+ cleanup_mnt
+ task_work_run
+...
+Kernel panic - not syncing: kernel: panic_on_warn set ...
+```
+
+The kernel was marked with the SOFTLOCKUP taint flag (`L`) in some of the
+reports. We have not established whether an earlier soft lockup contributed
+to this issue.
+
+**Reproduction:**
+
+- The warning was observed 19 times during concurrent syzkaller fuzzing; all
+  reports share the same warning site and call chain.
+- It was reproduced twice on fresh VMs by replaying a recorded program set
+  (483 programs extracted from the crash-store execution logs plus the
+  state-primed recipe) with
+  `syz-execprog -procs=8 -threaded -repeat=0`; time to warning was about
+  32 and 45 minutes of replay respectively (kernel uptime 1807 s / 2732 s at
+  the warning).
+- We have not yet minimized this to a single-program reproducer; automated
+  minimization did not converge for this crash.
+- An additional repeat run and an attempt to capture the extent buffer's
+  `refs`/`flags` (running with `panic_on_warn=0`, which should let the kernel
+  print the `unable to release extent buffer ... refs ... flags ...` line that
+  follows the WARN) are in progress. We will follow up in this thread with
+  those numbers.
+
+**Logs and configuration:**
+
+- Kernel configuration: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/config/kernel-7.4-rc1-kasan.config
+- Warning excerpt (warning + call trace + panic): https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/kernel-warning.log
+- Full serial console of the reproducing run: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/external-repro-full-serial.log
+- syzkaller execution log captured at report time: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/logs/syzkaller-execution-log0.txt
+- Program set used for reproduction: https://github.com/Zheng-zheng-codes/btrfs-extent-buffer-warning-repro/blob/main/repro/program-set.db
+
+Could you please advise whether this warning corresponds to a known issue, or
+whether additional diagnostics would be useful?
+
+Thanks,
+[Your name]
