@@ -86,8 +86,14 @@ reproducer exists yet (automated minimization did not converge).
 | campaign reports | 2026-11-04 16:05 | 19 occurrences | n/a (found during fuzzing) | varies |
 | external run 1 | 2026-11-05 01:11 | HIT | ~32 min | 1807.6 s |
 | external run 2 | 2026-11-05 10:01 | HIT | ~45 min | 2732.2 s |
-| external run 3 (repeat) | 2026-11-05 10:01 | in progress | | |
-| diagnostics run (`panic_on_warn=0`, to capture `refs`/`flags`) | 2026-11-05 10:01 | in progress | | |
+| external run 3 (repeat) | 2026-11-05 10:01 | HIT | ~2h03m | 7445.1 s |
+| diagnostics run (`panic_on_warn=0`) | 2026-11-05 10:01 | 4 warnings captured | first at ~1.6 h | 5617.8 s |
+
+The diagnostics run captured `refs`/`flags` of the stuck extent buffers
+(`logs/refcap-refs-flags-diagnostic.log`): `refs == 2` in all instances (no
+holder beyond the baseline), `EXTENT_BUFFER_WRITEBACK` set in two of four —
+the warning fires on transient unfinished I/O during unmount, not on a leaked
+reference (interpretation offered cautiously).
 
 All runs used the same kernel/image/cmdline and the same program set.
 The two reproducing runs panicked at the identical warning site
@@ -105,6 +111,9 @@ logs/syzkaller-logs/log-<n>.txt       all 20 syzkaller execution logs
 logs/title-stat.json                  crash title counters
 logs/repro-attempts.json              automated (state-primed) repro attempts
 repro/program-set.db                  verified program set (483 programs)
+logs/refcap-refs-flags-diagnostic.log refs/flags samples (panic_on_warn=0 run)
+logs/serial-btrfs-repro2.log          full serial of external run 2
+logs/serial-btrfs-repro3.log          full serial of external run 3
 repro/environment.txt                 kernel/image/QEMU/cmdline details
 REPRO-RESULTS.md                      reproduction run log
 REPORT-DRAFT.txt                      upstream bug-report email draft
